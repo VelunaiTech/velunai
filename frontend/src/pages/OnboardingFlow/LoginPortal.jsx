@@ -10,6 +10,7 @@ export default function LoginPortal({ onBack, onSwitchToSignup, onComplete }) {
     const [pass, setPass] = useState('');
     const [toastMsg, setToastMsg] = useState(null);
     const [submitting, setSubmitting] = useState(false);
+    
 
     // Set when the account (e.g. an admin-added developer) still has a
     // temporary password — they must set their own before continuing.
