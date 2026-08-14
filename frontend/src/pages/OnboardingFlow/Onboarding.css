@@ -422,6 +422,90 @@
             pointer-events: none;
             z-index: 10;
         }
+        /* ── mobile: vertical scrollable list instead of the horizontal row ── */
+        .row-layer-mobile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+            padding: 90px 16px 110px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+            pointer-events: auto;
+            z-index: 10;
+        }
+        .row-mobile-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: min(320px, 86vw);
+            cursor: pointer;
+            transition: filter .3s ease;
+        }
+        .row-mobile-item.dimmed {
+            filter: brightness(.22) saturate(.4);
+        }
+        .row-mobile-item.selected {
+            filter: brightness(1.4);
+        }
+        .row-mobile-item.row-mobile-sat {
+            cursor: default;
+            opacity: .8;
+        }
+        .row-mobile-visual {
+            position: relative;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .row-mobile-visual .planet {
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 4px rgba(0, 0, 0, .5) inset, 0 0 16px 3px var(--pcol, rgba(227, 181, 99, .35));
+        }
+        .row-mobile-visual .saturn-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 2px solid rgba(233, 194, 122, .7);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) rotate(-18deg);
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(233, 194, 122, .3);
+        }
+        .row-mobile-caption {
+            text-align: left;
+            opacity: 0;
+            transition: opacity .6s ease;
+        }
+        .row-mobile-caption.show {
+            opacity: 1;
+        }
+        .row-mobile-caption .rname {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: .02em;
+            color: #fff;
+        }
+        .row-mobile-caption .rcat {
+            font-size: 10px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-top: 2px;
+            font-weight: 500;
+            color: var(--dim);
+        }
+        .row-mobile-caption .rsub {
+            font-size: 9.5px;
+            color: var(--dim);
+            line-height: 1.5;
+            margin-top: 4px;
+            letter-spacing: .02em;
+        }
         .row-planet-wrap {
             position: absolute;
             transform: translate(-50%, -50%);

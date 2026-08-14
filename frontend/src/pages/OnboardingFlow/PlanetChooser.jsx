@@ -2,6 +2,20 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PLANETS } from './data';
 import { generatePlanetTexture } from './textures';
 
+function useIsMobile(breakpoint = 640) {
+    const [isMobile, setIsMobile] = useState(
+        () => typeof window !== 'undefined' && window.innerWidth <= breakpoint
+    );
+    useEffect(() => {
+        const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+        const onChange = () => setIsMobile(mq.matches);
+        onChange();
+        mq.addEventListener('change', onChange);
+        return () => mq.removeEventListener('change', onChange);
+    }, [breakpoint]);
+    return isMobile;
+}
+
 // Ported 1:1 from onboarding.script.js's sun-surface granule/spot layout.
 const SUN_GRANULES = [
     [15, 20, 12], [40, 10, 18], [55, 30, 14], [25, 45, 16],
@@ -253,10 +267,59 @@ export default function PlanetChooser({ onSelectPlanet, skipToRow = false }) {
 
 function RowLayer({ textures, selectedId, locked, onSelect, totalSlots }) {
     const [showCaptions, setShowCaptions] = useState(false);
+    const isMobile = useIsMobile();
     useEffect(() => {
         const t = setTimeout(() => setShowCaptions(true), 300);
         return () => clearTimeout(t);
     }, []);
+
+    if (isMobile) {
+        return (
+            <>
+                <div
+                    id="row-layer-mobile"
+                    className="row-layer-mobile"
+                    style={{ position: 'absolute', inset: 0 }}
+                >
+                    {ROW_PLANETS.map((p) => {
+                        const isSun = p.isSun === true;
+                        const isSelected = selectedId === p.id;
+                        const isDimmed = locked && selectedId && !isSelected;
+                        const size = isSun ? 56 : Math.min(38, 24 + (p.size || 30) * 0.4);
+                        return (
+                            <div
+                                key={p.id}
+                                className={`row-mobile-item ${isDimmed ? 'dimmed' : ''} ${isSelected ? 'selected' : ''}`}
+                                onClick={() => onSelect(p)}
+                            >
+                                <div className="row-mobile-visual" style={{ width: Math.max(size, 56) }}>
+                                    {isSun ? (
+                                        <div className="sun" style={{ width: size, height: size }} />
+                                    ) : (
+                                        <div className="planet" style={{ width: size, height: size, backgroundImage: `url(${textures[p.id]})` }} />
+                                    )}
+                                    {p.ring && <div className="saturn-ring" style={{ width: size * 1.8, height: size * 1.8 * 0.45 }} />}
+                                </div>
+                                <div className={`row-mobile-caption ${showCaptions ? 'show' : ''}`}>
+                                    <div className="rname">{isSun ? '☀️ Sun' : p.name}</div>
+                                    <div className="rcat">{p.cat}</div>
+                                    {p.sub && <div className="rsub">{p.sub.join(' · ')}</div>}
+                                </div>
+                            </div>
+                        );
+                    })}
+
+                    <div className="row-mobile-item row-mobile-sat">
+                        <div className="row-mobile-visual" style={{ width: 56, fontSize: 28 }}>🛰️</div>
+                        <div className={`row-mobile-caption ${showCaptions ? 'show' : ''}`}>
+                            <div className="rname">Satellite</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="footer-line" className="show">Your universe. Your business. Your world.</div>
+            </>
+        );
+    }
 
     return (
         <>
