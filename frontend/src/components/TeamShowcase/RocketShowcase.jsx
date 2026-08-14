@@ -163,9 +163,7 @@ function RocketShowcase() {
       cursor: moduleReveal ? "pointer" : "default",
       background: "radial-gradient(circle at 50% 0%, #0a1a2a 0%, #050d16 100%)",
       border: "1px solid rgba(0,212,255,0.6)",
-      boxShadow: "inset 0 0 10px rgba(0,212,255,0.35), 0 0 6px rgba(0,212,255,0.4)",
-      animation: moduleReveal ? "screenFadeIn 0.4s ease forwards" : moduleClose ? "screenFadeOut 0.3s ease forwards" : "none",
-      opacity: moduleReveal ? 1 : 0
+      boxShadow: "inset 0 0 10px rgba(0,212,255,0.35), 0 0 6px rgba(0,212,255,0.4)"
     }}
   >
             {
@@ -248,6 +246,14 @@ function RocketShowcase() {
                 {developer.contact.email} &nbsp;|&nbsp; {developer.contact.github}
               </div>
             </div>
+
+            {
+    /* Rolling shutter leaves — closed by default, retract when
+       moduleReveal is true, slide back together when it goes false */
+  }
+            <div className={`ts-shutter-leaf ts-shutter-top${moduleReveal ? " ts-shutter-open" : ""}`} />
+            <div className={`ts-shutter-leaf ts-shutter-bottom${moduleReveal ? " ts-shutter-open" : ""}`} />
+            <div className={`ts-shutter-seam-led${moduleReveal ? " ts-shutter-open" : ""}`} />
           </div>}
         </div>
       </div>
