@@ -197,6 +197,7 @@ export default function Nav() {
           </div>
 
           <div className="lg:hidden flex items-center gap-4">
+            {currentUser && <ProfileMenu />}
             <button 
               className="text-gray-300 hover:text-white transition-colors" 
               onClick={() => setMobileOpen((v) => !v)}
@@ -223,13 +224,15 @@ export default function Nav() {
               {link.label}
             </a>
           ))}
-          <a 
-            href="#contact" 
-            onClick={(e) => handleScroll(e, '#contact')}
-            className="btn-primary text-center mt-4"
-          >
-            <i className="fas fa-paper-plane mr-2"></i> Get Started
-          </a>
+          {!currentUser && (
+            <a 
+              href="#contact" 
+              onClick={(e) => { e.preventDefault(); closeMobileMenu(); navigate('/get-started'); }}
+              className="btn-primary text-center mt-4"
+            >
+              <i className="fas fa-paper-plane mr-2"></i> Get Started
+            </a>
+          )}
           {currentUser && (
             <div className="mt-4 pt-4 border-t border-gray-800 flex flex-col gap-1">
               <button

@@ -1,6 +1,6 @@
 "use client";
 
-function TruckSVG({ developer, isHovering, phase }) {
+function TruckSVG({ developer, isHovering, phase, shutterOpen, showScreen, onScreenClick }) {
   const accent = developer?.rocketColor || "#00e5ff";
 
   return (
@@ -9,7 +9,7 @@ function TruckSVG({ developer, isHovering, phase }) {
       width="520"
       height="260"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block", overflow: "visible" }}
+      style={{ display: "block", overflow: "visible", position: "relative", zIndex: 2, width: "clamp(320px, 92vw, 520px)", height: "auto" }}
     >
       <defs>
         <linearGradient id="cabHull" x1="0" y1="0" x2="0" y2="1">
@@ -53,6 +53,15 @@ function TruckSVG({ developer, isHovering, phase }) {
           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.18" />
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
+        <linearGradient id="shutterMetal" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#9aa4b0" />
+          <stop offset="45%" stopColor="#4b5561" />
+          <stop offset="100%" stopColor="#171b21" />
+        </linearGradient>
+        <pattern id="shutterHazard" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+          <rect width="10" height="10" fill="#0a0e13" />
+          <rect width="5" height="10" fill={accent} opacity="0.75" />
+        </pattern>
         <filter id="truckShadow" x="-20%" y="-20%" width="140%" height="160%">
           <feDropShadow dx="0" dy="10" stdDeviation="10" floodColor="#000000" floodOpacity="0.55" />
         </filter>
@@ -174,6 +183,163 @@ function TruckSVG({ developer, isHovering, phase }) {
 
       <line x1="60" y1="188" x2="460" y2="188" stroke={accent} strokeWidth="1" opacity="0.45" />
       </g>
+
+      {
+    /* Cargo-door screen bay — the developer info screen and the
+       shutter that covers it both live inside this one clipped
+       region, so the screen is truly *inside* the shutter opening,
+       not just visually overlapping it. */
+  }
+      <clipPath id="shutterClip">
+        <rect x="153" y="40" width="314" height="144" rx="4" />
+      </clipPath>
+      <g clipPath="url(#shutterClip)">
+        {
+    /* Screen — sits at the bottom of the stack, revealed once the
+       shutter leaves above it retract */
+  }
+        {showScreen && (
+          <foreignObject x="153" y="40" width="314" height="144">
+            <div
+              xmlns="http://www.w3.org/1999/xhtml"
+              onClick={() => shutterOpen && onScreenClick && onScreenClick()}
+              style={{
+                width: "314px",
+                height: "144px",
+                display: "flex",
+                padding: "8px 10px",
+                gap: "8px",
+                textAlign: "left",
+                boxSizing: "border-box",
+                cursor: shutterOpen ? "pointer" : "default",
+                background: "radial-gradient(circle at 50% 0%, #0a1a2a 0%, #050d16 100%)",
+                position: "relative",
+                overflow: "hidden"
+              }}
+            >
+              {
+    /* scanline texture + sweep for a real screen feel */
+  }
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "repeating-linear-gradient(0deg, rgba(0,212,255,0.06) 0px, rgba(0,212,255,0.06) 1px, transparent 1px, transparent 3px)",
+                  pointerEvents: "none"
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  height: "18px",
+                  background: "linear-gradient(180deg, rgba(0,212,255,0.4), transparent)",
+                  animation: "scanLine 3s linear infinite",
+                  pointerEvents: "none"
+                }}
+              />
+
+              {
+    /* Left: tiny portrait chip */
+  }
+              <div
+                style={{
+                  position: "relative",
+                  flexShrink: 0,
+                  width: "54px",
+                  height: "100%",
+                  borderRadius: "3px",
+                  overflow: "hidden",
+                  border: "1px solid rgba(0,212,255,0.35)",
+                  background: "#050d16"
+                }}
+              >
+                <img
+                  src={developer.photo}
+                  alt={developer.photoAlt}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.9 }}
+                />
+              </div>
+
+              {
+    /* Right: full details */
+  }
+              <div style={{ position: "relative", flex: 1, minWidth: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
+                  <span style={{ color: "#00D4FF", fontSize: "13px", fontWeight: 700, letterSpacing: "0.3px", lineHeight: 1.1, textShadow: "0 0 4px rgba(0,212,255,0.8)" }}>{developer.name}</span>
+                  <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "8px", lineHeight: 1.1 }}>{developer.role}</span>
+                </div>
+                <div style={{ display: "flex", gap: "10px", marginTop: "3px" }}>
+                  <span style={{ fontSize: "6.5px", color: "#8B9BB4", fontFamily: "monospace" }}>EXP <span style={{ color: "#fff" }}>{developer.experience}</span></span>
+                  <span style={{ fontSize: "6.5px", color: "#8B9BB4", fontFamily: "monospace" }}>PROJECTS <span style={{ color: "#fff" }}>{developer.projects}</span></span>
+                </div>
+                <p style={{ fontSize: "6.5px", color: "#a3b1c5", lineHeight: 1.35, margin: "4px 0 0", fontFamily: "monospace", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                  {developer.bio}
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "3px", marginTop: "4px" }}>
+                  {developer.technologies.slice(0, 8).map((tech) => (
+                    <span
+                      key={tech}
+                      style={{
+                        fontSize: "5.5px",
+                        color: "#00D4FF",
+                        border: "1px solid rgba(0,212,255,0.35)",
+                        borderRadius: "2px",
+                        padding: "1px 3px",
+                        fontFamily: "monospace",
+                        whiteSpace: "nowrap"
+                      }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <div style={{ marginTop: "auto", fontSize: "5.5px", color: "#8B9BB4", fontFamily: "monospace", paddingTop: "3px" }}>
+                  {developer.contact.email} &nbsp;|&nbsp; {developer.contact.github}
+                </div>
+              </div>
+            </div>
+          </foreignObject>
+        )}
+
+        {
+    /* Shutter leaves — sit above the screen, slide apart to open,
+       slide together to close */
+  }
+        <g
+          style={{
+            transform: shutterOpen ? "translateY(-76px)" : "translateY(0)",
+            transition: "transform 0.55s cubic-bezier(0.65, 0, 0.35, 1)"
+          }}
+        >
+          <rect x="153" y="40" width="314" height="72" fill="url(#shutterMetal)" />
+          {[52, 64].map((y, i) => (
+            <line key={`sh-top-${i}`} x1="153" y1={y} x2="467" y2={y} stroke="#04060a" strokeWidth="1" opacity="0.5" />
+          ))}
+          <rect x="153" y="108" width="314" height="4" fill="url(#shutterHazard)" />
+        </g>
+        <g
+          style={{
+            transform: shutterOpen ? "translateY(76px)" : "translateY(0)",
+            transition: "transform 0.55s cubic-bezier(0.65, 0, 0.35, 1)"
+          }}
+        >
+          <rect x="153" y="112" width="314" height="72" fill="url(#shutterMetal)" />
+          {[124, 148, 160, 172].map((y, i) => (
+            <line key={`sh-bot-${i}`} x1="153" y1={y} x2="467" y2={y} stroke="#04060a" strokeWidth="1" opacity="0.5" />
+          ))}
+          <rect x="153" y="112" width="314" height="4" fill="url(#shutterHazard)" />
+        </g>
+      </g>
+      <circle
+        cx="310"
+        cy="112"
+        r="3"
+        fill={shutterOpen ? "#00ff9c" : "#ff3b3b"}
+        opacity={shutterOpen ? 0 : 1}
+        style={{ transition: "fill 0.3s ease, opacity 0.3s ease 0.15s" }}
+      />
 
       <rect x="469" y="150" width="0" height="0" fill="none" style={{ animation: phase === "departing" ? "ledPulse 0.4s ease-in-out infinite" : "none" }} />
     </svg>

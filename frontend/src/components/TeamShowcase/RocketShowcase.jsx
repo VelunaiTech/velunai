@@ -114,7 +114,7 @@ function RocketShowcase() {
       clearAll();
     };
   }, []);
-  return <div className="relative w-full overflow-hidden" style={{ height: "420px" }}>
+  return <div className="relative w-full overflow-hidden" style={{ height: "clamp(300px, 68vw, 420px)" }}>
 
       {
     /* ── Rocket + Ropes + Card ── all move together as one unit */
@@ -134,127 +134,21 @@ function RocketShowcase() {
     }}
   >
         {
-    /* Rocket with hover float, relatively positioned so the compact
-       screen overlay below can be pinned exactly over the cockpit window */
+    /* Rocket with hover float. The screen and its shutter both live
+       inside TruckSVG now, clipped together as one unit. */
   }
         <div
     className={isHovering ? "rocket-hover" : ""}
     style={{ willChange: "transform", position: "relative" }}
   >
-          <TruckSVG developer={developer} isHovering={isHovering} phase={phase} />
-
-          {
-    /* Info screen embedded in the truck's cargo container panel */
-  }
-          {showModule && <div
-    onClick={() => moduleReveal && setIsExpanded(true)}
-    style={{
-      position: "absolute",
-      left: "153px",
-      top: "40px",
-      width: "314px",
-      height: "144px",
-      borderRadius: "4px",
-      overflow: "hidden",
-      display: "flex",
-      padding: "8px 10px",
-      gap: "8px",
-      textAlign: "left",
-      cursor: moduleReveal ? "pointer" : "default",
-      background: "radial-gradient(circle at 50% 0%, #0a1a2a 0%, #050d16 100%)",
-      border: "1px solid rgba(0,212,255,0.6)",
-      boxShadow: "inset 0 0 10px rgba(0,212,255,0.35), 0 0 6px rgba(0,212,255,0.4)"
-    }}
-  >
-            {
-    /* scanline texture + sweep for a real screen feel */
-  }
-            <div
-    style={{
-      position: "absolute",
-      inset: 0,
-      background: "repeating-linear-gradient(0deg, rgba(0,212,255,0.06) 0px, rgba(0,212,255,0.06) 1px, transparent 1px, transparent 3px)",
-      pointerEvents: "none"
-    }}
+          <TruckSVG
+    developer={developer}
+    isHovering={isHovering}
+    phase={phase}
+    shutterOpen={moduleReveal}
+    showScreen={showModule}
+    onScreenClick={() => setIsExpanded(true)}
   />
-            <div
-    style={{
-      position: "absolute",
-      left: 0,
-      right: 0,
-      height: "18px",
-      background: "linear-gradient(180deg, rgba(0,212,255,0.4), transparent)",
-      animation: "scanLine 3s linear infinite",
-      pointerEvents: "none"
-    }}
-  />
-
-            {
-    /* Left: tiny portrait chip */
-  }
-            <div
-    style={{
-      position: "relative",
-      flexShrink: 0,
-      width: "54px",
-      height: "100%",
-      borderRadius: "3px",
-      overflow: "hidden",
-      border: "1px solid rgba(0,212,255,0.35)",
-      background: "#050d16"
-    }}
-  >
-              <img
-    src={developer.photo}
-    alt={developer.photoAlt}
-    style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.9 }}
-  />
-            </div>
-
-            {
-    /* Right: full details */
-  }
-            <div style={{ position: "relative", flex: 1, minWidth: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
-                <span style={{ color: "#00D4FF", fontSize: "13px", fontWeight: 700, letterSpacing: "0.3px", lineHeight: 1.1, textShadow: "0 0 4px rgba(0,212,255,0.8)" }}>{developer.name}</span>
-                <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "8px", lineHeight: 1.1 }}>{developer.role}</span>
-              </div>
-              <div style={{ display: "flex", gap: "10px", marginTop: "3px" }}>
-                <span style={{ fontSize: "6.5px", color: "#8B9BB4", fontFamily: "monospace" }}>EXP <span style={{ color: "#fff" }}>{developer.experience}</span></span>
-                <span style={{ fontSize: "6.5px", color: "#8B9BB4", fontFamily: "monospace" }}>PROJECTS <span style={{ color: "#fff" }}>{developer.projects}</span></span>
-              </div>
-              <p style={{ fontSize: "6.5px", color: "#a3b1c5", lineHeight: 1.35, margin: "4px 0 0", fontFamily: "monospace", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                {developer.bio}
-              </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "3px", marginTop: "4px" }}>
-                {developer.technologies.slice(0, 8).map((tech) => <span
-    key={tech}
-    style={{
-      fontSize: "5.5px",
-      color: "#00D4FF",
-      border: "1px solid rgba(0,212,255,0.35)",
-      borderRadius: "2px",
-      padding: "1px 3px",
-      fontFamily: "monospace",
-      whiteSpace: "nowrap"
-    }}
-  >
-                    {tech}
-                  </span>)}
-              </div>
-              <div style={{ marginTop: "auto", fontSize: "5.5px", color: "#8B9BB4", fontFamily: "monospace", paddingTop: "3px" }}>
-                {developer.contact.email} &nbsp;|&nbsp; {developer.contact.github}
-              </div>
-            </div>
-
-            {
-    /* Rolling shutter leaves — closed by default, retract when
-       moduleReveal is true, slide back together when it goes false */
-  }
-            <div className={`ts-shutter-leaf ts-shutter-top${moduleReveal ? " ts-shutter-open" : ""}`} />
-            <div className={`ts-shutter-leaf ts-shutter-bottom${moduleReveal ? " ts-shutter-open" : ""}`} />
-            <div className={`ts-shutter-seam-led${moduleReveal ? " ts-shutter-open" : ""}`} />
-          </div>}
         </div>
       </div>
 
@@ -276,10 +170,11 @@ function RocketShowcase() {
     }}
   >
         <div
+    className="ts-expand-card"
     onClick={(e) => e.stopPropagation()}
     style={{
       position: "relative",
-      width: "min(640px, 90vw)",
+      width: "min(640px, 92vw)",
       maxHeight: "85vh",
       overflowY: "auto",
       display: "flex",
@@ -297,21 +192,23 @@ function RocketShowcase() {
       position: "absolute",
       top: "10px",
       right: "10px",
-      width: "26px",
-      height: "26px",
+      width: "30px",
+      height: "30px",
       borderRadius: "50%",
       border: "1px solid rgba(0,212,255,0.5)",
       background: "rgba(0,20,32,0.8)",
       color: "#00D4FF",
       fontSize: "14px",
       lineHeight: 1,
-      cursor: "pointer"
+      cursor: "pointer",
+      zIndex: 1
     }}
   >
             ✕
           </button>
 
           <img
+    className="ts-expand-photo"
     src={developer.photo}
     alt={developer.photoAlt}
     style={{

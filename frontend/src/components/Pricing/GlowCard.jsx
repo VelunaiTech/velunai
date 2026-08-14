@@ -118,7 +118,7 @@ export default function GlowCard({ children, className = '', glowColor = 'blue',
     backgroundPosition: '50% 50%',
     border: 'var(--border-size) solid var(--backup-border)',
     position: 'relative',
-    touchAction: 'none'
+    touchAction: 'pan-y'
   };
 
   return (

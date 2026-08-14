@@ -114,65 +114,20 @@
   100% { opacity: 0; }
 }
 
-/* Rolling shutter over the truck's cargo screen — two leaves that
-   retract (open) to reveal the developer card and slide back
-   together (close) to cover it again. */
-.ts-shutter-leaf {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 52%;
-  z-index: 5;
-  background:
-    repeating-linear-gradient(
-      180deg,
-      #2a3542 0px, #2a3542 5px,
-      #171e26 5px, #171e26 6px,
-      #0c1015 6px, #0c1015 9px
-    );
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.65);
-  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
-  will-change: transform;
+/* Expanded developer modal — stack photo above details on narrow
+   screens instead of squeezing them into a row */
+@media (max-width: 560px) {
+  .ts-expand-card {
+    flex-direction: column !important;
+    align-items: center;
+    padding: 20px 16px !important;
+    max-height: 90vh !important;
+  }
+  .ts-expand-photo {
+    width: 140px !important;
+    height: 170px !important;
+  }
 }
-.ts-shutter-leaf::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(255,187,0,0.65) 0px, rgba(255,187,0,0.65) 6px,
-    rgba(10,14,18,0.9) 6px, rgba(10,14,18,0.9) 12px
-  );
-  opacity: 0.85;
-}
-.ts-shutter-top { top: 0; transform-origin: top center; }
-.ts-shutter-top::before { bottom: 0; }
-.ts-shutter-bottom { bottom: 0; transform-origin: bottom center; }
-.ts-shutter-bottom::before { top: 0; }
-
-.ts-shutter-seam-led {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 6;
-  background: #ff3b3b;
-  box-shadow: 0 0 6px 1px rgba(255,59,59,0.85);
-  transition: background 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease 0.15s;
-}
-.ts-shutter-seam-led.ts-shutter-open {
-  background: #00ff9c;
-  box-shadow: 0 0 6px 1px rgba(0,255,156,0.85);
-  opacity: 0;
-}
-
-.ts-shutter-top.ts-shutter-open { transform: translateY(-100%); }
-.ts-shutter-bottom.ts-shutter-open { transform: translateY(100%); }
 
 @keyframes contactPulse {
   0% { box-shadow: 0 0 6px rgba(0,212,255,0.2); }
