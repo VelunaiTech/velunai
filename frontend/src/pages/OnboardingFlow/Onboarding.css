@@ -31,6 +31,7 @@
             position: relative;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             min-height: 560px;
             overflow: hidden;
         }
@@ -769,8 +770,8 @@
             opacity: 1;
         }
         #skip-intro {
-            position: absolute;
-            bottom: 18px;
+            position: fixed;
+            bottom: calc(18px + env(safe-area-inset-bottom, 0px));
             right: 24px;
             background: transparent;
             border: 1px solid var(--glass-border);
@@ -792,6 +793,14 @@
         #skip-intro.hide {
             opacity: 0;
             pointer-events: none;
+        }
+        @media (max-width: 640px) {
+            #skip-intro {
+                bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+                right: 16px;
+                padding: 10px 18px;
+                font-size: 12px;
+            }
         }
         /* ── flash ── */
         #flash {

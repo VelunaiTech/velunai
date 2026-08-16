@@ -22,7 +22,7 @@ function getInitials(name) {
   return (parts[0]?.[0] || '').concat(parts.length > 1 ? parts[parts.length - 1][0] : '').toUpperCase();
 }
 
-function ProfileMenu() {
+function ProfileMenu({ compact = false }) {
   const { currentUser, logout } = useData();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -46,11 +46,11 @@ function ProfileMenu() {
   }
 
   return (
-    <div className="relative" ref={menuRef}>
+    <div className="relative flex-shrink-0" ref={menuRef}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold border border-white/10 hover:border-primary/50 transition"
+        className={`rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold border border-white/10 hover:border-primary/50 transition ${compact ? 'w-8 h-8 text-xs' : 'w-10 h-10 text-sm'}`}
         aria-label="Open profile menu"
         aria-expanded={open}
       >
@@ -61,7 +61,7 @@ function ProfileMenu() {
           className="absolute right-0 overflow-hidden"
           style={{
             marginTop: '12px',
-            width: '256px',
+            width: 'min(256px, 78vw)',
             borderRadius: '12px',
             border: '1px solid #1f2937',
             background: '#0f1420',
@@ -159,12 +159,12 @@ export default function Nav() {
   return (
     <nav className="nav-blur fixed w-full z-50 top-0">
       <div className="px-4 sm:px-6 lg:px-8" style={{ maxWidth: '1280px', width: '100%', margin: '0 auto' }}>
-        <div className="flex justify-between items-center h-16 sm:h-20">
-          <a href="#home" onClick={(e) => handleScroll(e, '#home')} className="flex items-center gap-2" aria-label="Velunai Home">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+        <div className="flex justify-between items-center h-16 sm:h-20 gap-2">
+          <a href="#home" onClick={(e) => handleScroll(e, '#home')} className="flex items-center gap-2 min-w-0" aria-label="Velunai Home">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
                 <i className="fas fa-rocket text-white text-sm"></i>
             </div>
-            <span className="text-xl font-bold font-display tracking-wide text-white">
+            <span className="text-xl font-bold font-display tracking-wide text-white truncate">
               Velunai<span className="text-primary">.</span>
             </span>
           </a>
@@ -196,10 +196,10 @@ export default function Nav() {
             <ProfileMenu />
           </div>
 
-          <div className="lg:hidden flex items-center gap-4">
-            {currentUser && <ProfileMenu />}
+          <div className="lg:hidden flex items-center gap-3 flex-shrink-0">
+            {currentUser && <ProfileMenu compact />}
             <button 
-              className="text-gray-300 hover:text-white transition-colors" 
+              className="text-gray-300 hover:text-white transition-colors flex-shrink-0" 
               onClick={() => setMobileOpen((v) => !v)}
               aria-label="Toggle menu"
               aria-expanded={mobileOpen}

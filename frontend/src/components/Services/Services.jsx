@@ -69,7 +69,7 @@ export default function Services() {
     useEffect(() => {
         if (trackRef.current) {
             const cardWidth = trackRef.current.children[0]?.offsetWidth || 300;
-            const gap = 24;
+            const gap = parseFloat(getComputedStyle(trackRef.current).columnGap || getComputedStyle(trackRef.current).gap) || 24;
             const offset = -(currentIndex * (cardWidth + gap));
             trackRef.current.style.transform = `translateX(${offset}px)`;
         }
@@ -78,7 +78,7 @@ export default function Services() {
     const handleResize = () => {
         if (trackRef.current) {
             const cardWidth = trackRef.current.children[0]?.offsetWidth || 300;
-            const gap = 24;
+            const gap = parseFloat(getComputedStyle(trackRef.current).columnGap || getComputedStyle(trackRef.current).gap) || 24;
             const offset = -(currentIndex * (cardWidth + gap));
             trackRef.current.style.transform = `translateX(${offset}px)`;
         }
