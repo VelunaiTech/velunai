@@ -156,6 +156,21 @@
             bottom: 118%;
             opacity: 1;
         }
+        #rocket .rocket-flame {
+            transform-origin: 30px 96px;
+            animation: rocketFlameFlicker 0.18s ease-in-out infinite alternate;
+        }
+        #rocket .rocket-flame-glow {
+            animation: rocketGlowPulse 0.4s ease-in-out infinite alternate;
+        }
+        @keyframes rocketFlameFlicker {
+            0% { transform: scaleY(1) scaleX(1); opacity: 1; }
+            100% { transform: scaleY(0.88) scaleX(1.08); opacity: 0.9; }
+        }
+        @keyframes rocketGlowPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 0.9; }
+        }
         /* ── solar system ── */
         #solar-view {
             position: absolute;
