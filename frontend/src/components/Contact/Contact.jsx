@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 export default function Contact({
     title = "Contact Us",
     description = "We are available for questions, feedback, or collaboration opportunities. Let us know how we can help!",
+    
     email = "velunai02724@gmail.com",
     web = { label: "VelunAI", url: "www.velunai.in" },
 }) {
