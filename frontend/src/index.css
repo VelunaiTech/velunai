@@ -272,16 +272,16 @@ html, body, #root, #dashboard-app {
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding: 80px 0 0; /* 80px top, 0 bottom - gap handled by next section */
+    padding: 96px 0 0; /* clears the 80px desktop/tablet nav with room to spare */
 }
 @media (max-width: 1024px) {
     .hero-space {
-        padding: 64px 0; /* 64px tablet */
+        padding: 88px 0 0; /* nav is 80px (sm:h-20) down to 640px */
     }
 }
 @media (max-width: 640px) {
     .hero-space {
-        padding: 56px 0; /* 56px mobile */
+        padding: 80px 0 24px; /* nav is 64px (h-16) here — was 56px, tucking the badge under it */
         min-height: auto;
     }
 }

@@ -97,7 +97,7 @@ export default function HomeSection() {
   };
 
   return (
-    <section id="home" className="hero-space pt-16">
+    <section id="home" className="hero-space">
       <div className="site-container hero-content py-20">
         <div className="hero-grid">
           <div className="hero-text reveal-left">
