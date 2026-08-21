@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 export default function Contact({
     title = "Contact Us",
     description = "We are available for questions, feedback, or collaboration opportunities. Let us know how we can help!",
-    phone = "+1 (555) 123-4567",
     email = "velunai02724@gmail.com",
     web = { label: "VelunAI", url: "www.velunai.in" },
 }) {
@@ -33,10 +32,6 @@ export default function Contact({
                                 Contact Details
                             </h3>
                             <ul className="space-y-3 text-gray-400">
-                                <li>
-                                    <span className="font-bold text-white">Phone: </span>
-                                    {phone}
-                                </li>
                                 <li>
                                     <span className="font-bold text-white">Email: </span>
                                     <a href={`mailto:${email}`} className="underline hover:text-primary transition">
