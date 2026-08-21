@@ -304,37 +304,25 @@ function TruckSVG({ developer, isHovering, phase, shutterOpen, showScreen, onScr
         )}
 
         {
-    /* Shutter leaves — sit above the screen, slide apart to open,
-       slide together to close */
+    /* Single shutter door — one panel that rolls straight up to
+       open, and back down to close */
   }
         <g
           style={{
-            transform: shutterOpen ? "translateY(-76px)" : "translateY(0)",
+            transform: shutterOpen ? "translateY(-152px)" : "translateY(0)",
             transition: "transform 0.55s cubic-bezier(0.65, 0, 0.35, 1)"
           }}
         >
-          <rect x="153" y="40" width="314" height="72" fill="url(#shutterMetal)" />
-          {[52, 64].map((y, i) => (
-            <line key={`sh-top-${i}`} x1="153" y1={y} x2="467" y2={y} stroke="#04060a" strokeWidth="1" opacity="0.5" />
+          <rect x="153" y="40" width="314" height="144" fill="url(#shutterMetal)" />
+          {[54, 68, 82, 96, 110, 124, 138, 152, 166, 180].map((y, i) => (
+            <line key={`sh-${i}`} x1="153" y1={y} x2="467" y2={y} stroke="#04060a" strokeWidth="1" opacity="0.5" />
           ))}
-          <rect x="153" y="108" width="314" height="4" fill="url(#shutterHazard)" />
-        </g>
-        <g
-          style={{
-            transform: shutterOpen ? "translateY(76px)" : "translateY(0)",
-            transition: "transform 0.55s cubic-bezier(0.65, 0, 0.35, 1)"
-          }}
-        >
-          <rect x="153" y="112" width="314" height="72" fill="url(#shutterMetal)" />
-          {[124, 148, 160, 172].map((y, i) => (
-            <line key={`sh-bot-${i}`} x1="153" y1={y} x2="467" y2={y} stroke="#04060a" strokeWidth="1" opacity="0.5" />
-          ))}
-          <rect x="153" y="112" width="314" height="4" fill="url(#shutterHazard)" />
+          <rect x="153" y="176" width="314" height="4" fill="url(#shutterHazard)" />
         </g>
       </g>
       <circle
         cx="310"
-        cy="112"
+        cy="180"
         r="3"
         fill={shutterOpen ? "#00ff9c" : "#ff3b3b"}
         opacity={shutterOpen ? 0 : 1}
