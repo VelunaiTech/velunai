@@ -4,6 +4,7 @@ import StarfieldBackground from '../../components/StarfieldBackground/StarfieldB
 import Nav from '../../components/Nav/Nav';
 import Footer from '../../components/Footer/Footer';
 import { useData } from '../../context/DataContext';
+import usePageSeo from '../../hooks/usePageSeo';
 
 const FIELD_GROUPS = [
     {
@@ -46,6 +47,7 @@ function getInitials(name) {
 }
 
 export default function Profile() {
+    usePageSeo({ title: 'My Profile | Velunai', noindex: true });
     const { currentUser, updateProfile, loading } = useData();
     const navigate = useNavigate();
     const [form, setForm] = useState(null);

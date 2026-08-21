@@ -5,6 +5,7 @@ import { services as servicesApi, projects as projectsApi, team as teamApi,
     testimonials as testimonialsApi, pricing as pricingApi,
     adminUsers, adminDevelopers, adminAdmins, ApiError } from '../../api';
 import StarfieldBackground from '../../components/StarfieldBackground/StarfieldBackground';
+import usePageSeo from '../../hooks/usePageSeo';
 import './AdminPortal.css';
 
 const SECTIONS = [
@@ -496,6 +497,7 @@ function Overview({ onNavigate }) {
 }
 
 export default function AdminPortal() {
+    usePageSeo({ title: 'Admin | Velunai', noindex: true });
     const { currentUser } = useData();
     const navigate = useNavigate();
     const [active, setActive] = useState('overview');

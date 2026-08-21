@@ -1,0 +1,14 @@
+{
+  "name": "Velunai",
+  "short_name": "Velunai",
+  "description": "Full-stack development solutions delivering modern, scalable, and high-performance web solutions tailored to your business.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0e17",
+  "theme_color": "#0b0e17",
+  "icons": [
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

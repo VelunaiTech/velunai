@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import Intro from './Intro';
 import PlanetChooser from './PlanetChooser';
 import './Onboarding.css';
+import usePageSeo from '../../hooks/usePageSeo';
 
 import RegistrationPortal from './RegistrationPortal';
 import LoginPortal from './LoginPortal';
 import Dashboard from '../Dashboard';
 
 export default function Onboarding() {
+    usePageSeo({
+        title: 'Get Started | Velunai',
+        description: 'Create your Velunai account and pick your business universe to get started.',
+    });
     const [showIntro, setShowIntro] = useState(true);
     const [activePlanet, setActivePlanet] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
