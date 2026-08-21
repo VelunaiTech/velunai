@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const DEFAULT_TITLE = 'Velunai | Full-Stack Web Development & Digital Experiences';
+const DEFAULT_TITLE = 'Velunai';
 const DEFAULT_DESCRIPTION = 'Velunai builds fast, scalable, full-stack web applications — from React frontends to production-ready backends.';
 
 function setMeta(name, content, attr = 'name') {
