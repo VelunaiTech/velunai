@@ -46,10 +46,9 @@ export default function Contact({
                                 </li>
                             </ul>
                             <div className="flex gap-4 mt-6">
-                                <a href="#" onClick={e => e.preventDefault()} className="bg-dark-card p-3 rounded-full border border-gray-800 text-gray-400 hover:text-white hover:border-primary/50 transition"><i className="fab fa-linkedin-in text-lg"></i></a>
-                                <a href="#" onClick={e => e.preventDefault()} className="bg-dark-card p-3 rounded-full border border-gray-800 text-gray-400 hover:text-white hover:border-primary/50 transition"><i className="fab fa-github text-lg"></i></a>
-                                <a href="#" onClick={e => e.preventDefault()} className="bg-dark-card p-3 rounded-full border border-gray-800 text-gray-400 hover:text-white hover:border-primary/50 transition"><i className="fab fa-x-twitter text-lg"></i></a>
-                                <a href="#" onClick={e => e.preventDefault()} className="bg-dark-card p-3 rounded-full border border-gray-800 text-gray-400 hover:text-white hover:border-primary/50 transition"><i className="fab fa-youtube text-lg"></i></a>
+                                <a href="https://www.linkedin.com/in/velunai-freelance" target="_blank" rel="noreferrer" aria-label="Velunai on LinkedIn" className="bg-dark-card p-3 rounded-full border border-gray-800 text-gray-400 hover:text-white hover:border-primary/50 transition"><i className="fab fa-linkedin-in text-lg"></i></a>
+                                <a href="https://github.com/VelunaiTech" target="_blank" rel="noreferrer" aria-label="Velunai on GitHub" className="bg-dark-card p-3 rounded-full border border-gray-800 text-gray-400 hover:text-white hover:border-primary/50 transition"><i className="fab fa-github text-lg"></i></a>
+                                <a href="https://www.instagram.com/velunai_freelancing/" target="_blank" rel="noreferrer" aria-label="Velunai on Instagram" className="bg-dark-card p-3 rounded-full border border-gray-800 text-gray-400 hover:text-white hover:border-primary/50 transition"><i className="fab fa-instagram text-lg"></i></a>
                             </div>
                         </div>
                     </div>

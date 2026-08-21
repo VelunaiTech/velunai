@@ -33,10 +33,9 @@ const footerLinks = [
     {
         label: 'Social Links',
         links: [
-            { title: 'LinkedIn', href: '#', icon: 'fab fa-linkedin-in' },
-            { title: 'GitHub', href: '#', icon: 'fab fa-github' },
-            { title: 'X', href: '#', icon: 'fab fa-x-twitter' },
-            { title: 'YouTube', href: '#', icon: 'fab fa-youtube' },
+            { title: 'LinkedIn', href: 'https://www.linkedin.com/in/velunai-freelance', icon: 'fab fa-linkedin-in' },
+            { title: 'GitHub', href: 'https://github.com/VelunaiTech', icon: 'fab fa-github' },
+            { title: 'Instagram', href: 'https://www.instagram.com/velunai_freelancing/', icon: 'fab fa-instagram' },
         ],
     },
 ];
@@ -62,6 +61,8 @@ export default function Footer() {
                                         <a
                                             href={link.href}
                                             onClick={link.href === '#' ? (e) => e.preventDefault() : undefined}
+                                            target={link.href.startsWith('http') ? '_blank' : undefined}
+                                            rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
                                             className="hover:text-white inline-flex items-center transition-all duration-300"
                                         >
                                             {link.icon && <i className={`${link.icon} me-2`}></i>}
