@@ -33,6 +33,7 @@ export const DEVELOPERS = [
     role: "Full Stack Developer",
     experience: "1.5+ Years",
     projects: "7+ Projects",
+    
     bio: "Full stack developer with 1.5+ years of experience building web applications end-to-end, from Django/FastAPI backends and REST APIs to responsive React and Next.js frontends, backed by hands-on experience with PostgreSQL, Docker, and CI/CD pipelines.",
     photo: "https://img.rocket.new/generatedImages/rocket_gen_img_195597aae-1772497150188.png",
     photoAlt: "Developer portrait, dark moody space station corridor, blue LED ambient lighting, atmospheric shadows, cinematic",
