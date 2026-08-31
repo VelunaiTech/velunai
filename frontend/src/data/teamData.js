@@ -26,29 +26,6 @@ export const DEVELOPERS = [
     },
     accentColor: "#4a6fa5",
     featured: true
-  },
-  {
-    id: 2,
-    name: "Navaneetha Krishnan M D",
-    role: "Full Stack Developer",
-    experience: "1.5+ Years",
-    projects: "7+ Projects",
-    bio: "Full stack developer with 1.5+ years of experience building web applications end-to-end, from Django/FastAPI backends and REST APIs to responsive React and Next.js frontends, backed by hands-on experience with PostgreSQL, Docker, and CI/CD pipelines.",
-    photo: "https://img.rocket.new/generatedImages/rocket_gen_img_195597aae-1772497150188.png",
-    photoAlt: "Developer portrait, dark moody space station corridor, blue LED ambient lighting, atmospheric shadows, cinematic",
-    technologies: [
-      "Python", "Django", "Flask", "FastAPI", "REST API",
-      "React", "TypeScript", "Next.js", "Tailwind CSS",
-      "PostgreSQL", "Docker", "GitHub Actions", "Agentic AI"
-    ],
-    contact: {
-      email: "naveenmd2004@gmail.com",
-      linkedin: "linkedin.com/in/navaneetha-krishnan-890a0027b",
-      github: "github.com/NavaneethaKrishnan2774",
-      portfolio: "https://portfolio-zeta-neon-62.vercel.app/"
-    },
-    accentColor: "#6b4fa5",
-    featured: false
   }
 ];
 
