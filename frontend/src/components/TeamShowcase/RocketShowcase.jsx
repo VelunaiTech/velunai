@@ -2,37 +2,11 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import TruckSVG from "./TruckSVG";
 
-// Move developers array to INITIAL_DEVELOPERS
-const INITIAL_DEVELOPERS = [
-  {
-    id: 1,
-    name: "Muthukumar",
-    role: "Full Stack Developer and Cloud Engineer",
-    experience: "1+ Years",
-    projects: "5+ Projects",
-    bio: "Full stack developer and cloud engineer building end-to-end applications spanning data pipelines, APIs, and modern web frontends, with hands-on AWS deployment experience and a growing focus on agentic AI systems.",
-    photo: "https://img.rocket.new/generatedImages/rocket_gen_img_10cfef659-1778787023536.png",
-    photoAlt: "Developer in astronaut suit, dark industrial space station background, dramatic blue rim lighting, deep shadows",
-    technologies: ["Python", "Django", "Flask", "FastAPI", "REST API", "AWS", "React", "HTML", "CSS", "JavaScript", "SQL", "PostgreSQL", "Agentic AI"],
-    contact: { email: "muthu200524@gmail.com", linkedin: "linkedin.com/in/kmuthukumar-r2405", github: "github.com/Muthu2405", instagram: "", phone: "" },
-    rocketColor: "#4a6fa5"
-  },
-  {
-    id: 2,
-    name: "Navaneetha Krishnan M D",
-    role: "Full Stack Developer",
-    experience: "1.5+ Years",
-    projects: "7+ Projects",
-    bio: "neeyea poodu",
-    photo: "https://img.rocket.new/generatedImages/rocket_gen_img_195597aae-1772497150188.png",
-    photoAlt: "Developer portrait, dark moody space station corridor, blue LED ambient lighting, atmospheric shadows, cinematic",
-    technologies: ["Python", "Django", "Flask", "FastAPI", "REST API", "React", "TypeScript", "Next.js", "Tailwind CSS", "PostgreSQL", "Docker", "GitHub Actions", "Agentic AI"],
-    contact: { email: "naveenmd2004@gmail.com", linkedin: "linkedin.com/in/navaneetha-krishnan-890a0027b", github: "github.com/NavaneethaKrishnan2774", portfolio: "https://portfolio-zeta-neon-62.vercel.app/", instagram: "", phone: "" },
-    rocketColor: "#6b4fa5"
-  }
-];
+// Data imported from centralized file
+import { DEVELOPERS } from "../../data/teamData";
+
 function RocketShowcase() {
-  const developers = INITIAL_DEVELOPERS;
+  const developers = DEVELOPERS;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [phase, setPhase] = useState("waiting");

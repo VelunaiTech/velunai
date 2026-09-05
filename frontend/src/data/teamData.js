@@ -25,6 +25,33 @@ export const DEVELOPERS = [
       instagram: "@muthu2405"
     },
     accentColor: "#4a6fa5",
+    rocketColor: "#4a6fa5",
+    featured: true
+  },
+  {
+    id: 2,
+    name: "Navaneetha Krishnan M D",
+    role: "Full Stack Developer",
+    experience: "1.5+ Years",
+    projects: "7+ Projects",
+    bio: "Full stack developer specializing in building robust scalable APIs using Python (Django, Flask, FastAPI) and modern frontend interfaces with React, Next.js, TypeScript, and Tailwind CSS. Experienced in data management with PostgreSQL, DevOps workflows using Docker and GitHub Actions, and exploring cutting-edge Agentic AI solutions.",
+    photo: "https://img.rocket.new/generatedImages/rocket_gen_img_195597aae-1772497150188.png",
+    photoAlt: "Developer portrait, dark moody space station corridor, blue LED ambient lighting, atmospheric shadows, cinematic",
+    technologies: [
+      "Python", "Django", "Flask", "FastAPI", "REST API",
+      "React", "TypeScript", "Next.js", "Tailwind CSS",
+      "PostgreSQL", "Docker", "GitHub Actions", "Agentic AI"
+    ],
+    contact: {
+      email: "naveenmd2004@gmail.com",
+      linkedin: "linkedin.com/in/navaneetha-krishnan-890a0027b",
+      github: "github.com/NavaneethaKrishnan2774",
+      portfolio: "https://portfolio-zeta-neon-62.vercel.app/",
+      instagram: "",
+      phone: ""
+    },
+    accentColor: "#6b4fa5",
+    rocketColor: "#6b4fa5",
     featured: true
   }
 ];
