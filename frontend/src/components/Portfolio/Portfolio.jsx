@@ -11,7 +11,7 @@ const INITIAL_PROJECTS = [
         githubUrl: 'https://github.com/VelunaiTech/AI-customer-support.git'
     },
     {
-        title: 'IndustrialElectro',
+        title: 'Uthaya Industrial Electro',
         desc: 'Full-stack platform for an industrial electronics business — product catalog, categories, material requests, and inquiries.',
         longDesc: 'A full-stack web application for an industrial electronics/hardware business. Built with React 19 (Vite) on the frontend and Django 5 + DRF on the backend. Features a browsable product catalog organized into categories, a material request system for bulk/custom orders, a contact system for managing customer inquiries, and dynamic hero/banner management for the homepage — all backed by a RESTful API.',
         tags: ['React 19', 'Vite', 'Django', 'DRF', 'SQLite'],
