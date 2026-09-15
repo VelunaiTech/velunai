@@ -2,23 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 
 const INITIAL_PROJECTS = [
-    { title: 'E-Commerce Platform', desc: 'Full-featured online store with payment gateway and inventory management.', longDesc: 'A comprehensive e-commerce solution built for scale, featuring a secure checkout flow, integrated payment gateway, real-time inventory tracking, and an admin panel for managing products, orders, and customers. Built with performance and SEO in mind so the store loads fast and ranks well.', tags: ['Django', 'React', 'PostgreSQL'], img: 'https://placehold.co/600x400/1e293b/ffffff?text=Project+1' },
-    { title: 'AI Chatbot Dashboard', desc: 'Admin dashboard for managing AI-powered customer support chatbots.', longDesc: 'An admin dashboard that lets support teams configure, monitor, and fine-tune AI-powered chatbots. Includes conversation analytics, intent management, live handoff to human agents, and OpenAI-based response generation with guardrails for brand-safe replies.', tags: ['React', 'Django REST', 'OpenAI'], img: 'https://placehold.co/600x400/0f172a/ffffff?text=Project+2' },
-    { title: 'Task Management App', desc: 'Collaborative task management with real-time updates and team workspaces.', longDesc: 'A Trello-style collaborative workspace with drag-and-drop boards, real-time updates via WebSockets, team permissions, and activity history — built to help distributed teams stay aligned without constant status meetings.', tags: ['Django', 'React', 'WebSockets'], img: 'https://placehold.co/600x400/1e293b/ffffff?text=Project+3' },
-    { title: 'Booking & Scheduling App', desc: 'Real-time appointment booking system with calendar sync and reminders.', longDesc: 'A real-time booking system with two-way calendar sync, automated SMS/email reminders, buffer-time rules, and a customer-facing widget that can be embedded on any website to reduce no-shows and manual scheduling back-and-forth.', tags: ['Node.js', 'React', 'MongoDB'], img: 'https://placehold.co/600x400/0f172a/ffffff?text=Project+4' },
-    { title: 'Analytics Dashboard', desc: 'Interactive data visualization dashboard for business intelligence.', longDesc: 'A business intelligence dashboard that pulls data from multiple sources into one interactive view — with drill-down charts, custom date ranges, and exportable reports built with D3.js on top of a Django REST backend.', tags: ['Django', 'D3.js', 'PostgreSQL'], img: 'https://placehold.co/600x400/1e293b/ffffff?text=Project+5' },
-    { title: 'Learning Management System', desc: 'Course platform with video lessons, quizzes, and progress tracking.', longDesc: 'A full LMS platform supporting video lessons stored on AWS S3, auto-graded quizzes, per-student progress tracking, and certificates on completion — designed to be white-labeled for different course creators.', tags: ['React', 'Django REST', 'AWS S3'], img: 'https://placehold.co/600x400/0f172a/ffffff?text=Project+6' }
-];
+    {
+        title: 'AI Customer Support Dashboard',
+        desc: 'AI-powered customer support dashboard with automated reply drafting and email replies.',
+        longDesc: 'A full-stack customer support dashboard built with React and Django REST Framework. Support agents can manage customer tickets, generate AI-powered reply drafts using Groq’s API (Llama 3.3 70B via openai/gpt-oss-120b), send replies directly through SMTP, and resolve tickets. The backend uses SQLite by default and can be switched to PostgreSQL for production use. Designed with a clean ticket inbox, detailed ticket view, AI draft panel, and REST API.',
+        tags: ['React', 'Django', 'DRF', 'Groq', 'PostgreSQL'],
+        img: 'https://placehold.co/600x400/1e293b/ffffff?text=AI+Customer+Support',
+        githubUrl: 'https://github.com/VelunaiTech/AI-customer-support.git'
+    },
+    {
+        title: 'IndustrialElectro',
+        desc: 'Full-stack platform for an industrial electronics business — product catalog, categories, material requests, and inquiries.',
+        longDesc: 'A full-stack web application for an industrial electronics/hardware business. Built with React 19 (Vite) on the frontend and Django 5 + DRF on the backend. Features a browsable product catalog organized into categories, a material request system for bulk/custom orders, a contact system for managing customer inquiries, and dynamic hero/banner management for the homepage — all backed by a RESTful API.',
+        tags: ['React 19', 'Vite', 'Django', 'DRF', 'SQLite'],
+        img: 'https://placehold.co/600x400/1e293b/ffffff?text=IndustrialElectro',
+        githubUrl: 'https://github.com/VelunaiTech/VelunaiTech-IndustrialElectro.git',
+        demoUrl: 'https://uthaya-electro.vercel.app/'
+    },
+]
 
 const DURATION = 900;
 const EASE = 'cubic-bezier(.45,.05,.55,.95)';
+const MAX_SLOTS = 3;
 
 function ProjectFace({ project }) {
     const [imgError, setImgError] = useState(false);
 
-    // Reset the broken-image flag whenever the project (and therefore the
-    // image src) changes, since this component instance is reused across
-    // rotations instead of being remounted.
     useEffect(() => {
         setImgError(false);
     }, [project && project.img]);
@@ -53,37 +62,50 @@ function ProjectFace({ project }) {
                     ))}
                 </div>
                 <div className="flip-links card-footer">
-                    <a href="#" onClick={(e) => e.preventDefault()}><i className="fab fa-github mr-1"></i> Code</a>
-                    <a href="#" onClick={(e) => e.preventDefault()}><i className="fas fa-external-link-alt mr-1"></i> Demo</a>
+                    {project.githubUrl && (
+                        
+                            <a href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <i className="fab fa-github mr-1"></i> Code
+                        </a>
+                    )}
+                    {project.demoUrl && (
+                        
+                            <a href={project.demoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <i className="fas fa-external-link-alt mr-1"></i> Demo
+                        </a>
+                    )}
                 </div>
             </div>
         </>
     );
 }
 
-function Slot({ initialIndex, dir, projects, staggerDelay, onClick }) {
-    // Number of slots rendered side-by-side (Portfolio always mounts 3).
-    // Stepping by that count (instead of a hardcoded 3) keeps each slot
-    // cycling through a distinct subset of projects regardless of how
-    // many projects are actually loaded, and avoids indexing past the
-    // end of a short custom project list.
-    const slotCount = 3;
+function Slot({ initialIndex, dir, projects, staggerDelay, slotCount, rotationEnabled, onClick }) {
+    // Step by the actual number of rendered slots so each slot cycles
+    // through a distinct subset of projects.
     const step = Math.min(slotCount, Math.max(1, projects.length));
 
     const [activeIndex, setActiveIndex] = useState(initialIndex % projects.length);
     const [incomingIndex, setIncomingIndex] = useState((initialIndex + step) % projects.length);
     const [phase, setPhase] = useState('idle');
 
-    // If the underlying project list changes length (e.g. loaded from
-    // storage after first render), keep indices in range.
     useEffect(() => {
         setActiveIndex(prev => prev % projects.length);
         setIncomingIndex(prev => prev % projects.length);
     }, [projects.length]);
 
     useEffect(() => {
-        // Don't bother animating if there's nothing to rotate to.
-        if (projects.length <= 1) return undefined;
+        // No rotation when there aren't more projects than visible slots —
+        // rotating would just shuffle the same items and create repeats.
+        if (!rotationEnabled || projects.length <= 1) return undefined;
 
         let interval;
         let innerTimeout;
@@ -105,7 +127,7 @@ function Slot({ initialIndex, dir, projects, staggerDelay, onClick }) {
             clearInterval(interval);
             clearTimeout(innerTimeout);
         };
-    }, [staggerDelay, projects.length, step]);
+    }, [staggerDelay, projects.length, step, rotationEnabled]);
     
     const activeTransform = phase === 'idle' 
         ? 'translateY(0%)' 
@@ -140,6 +162,14 @@ function Slot({ initialIndex, dir, projects, staggerDelay, onClick }) {
 export default function Portfolio() {
     const { projects: contextProjects } = useData();
     const projects = contextProjects && contextProjects.length > 0 ? contextProjects : INITIAL_PROJECTS;
+
+    // Only render as many slots as there are projects, capped at MAX_SLOTS,
+    // so fewer than 3 projects never shows a duplicate at the same time.
+    const slotCount = Math.min(MAX_SLOTS, projects.length);
+    // Rotation only kicks in once there are more projects than visible slots.
+    const rotationEnabled = projects.length > slotCount;
+    const dirs = ['a', 'b', 'a'];
+    const staggerDelays = [0, 220, 440];
     
     const [selectedProject, setSelectedProject] = useState(null);
 
@@ -152,16 +182,24 @@ export default function Portfolio() {
                     <p className="text-gray-400 mt-4">A showcase of our best work across different industries and technologies.</p>
                 </div>
                 <div className="flip-board reveal card-gap-xl" id="projectsFlipBoard">
-                    <Slot initialIndex={0} dir="a" projects={projects} staggerDelay={0} onClick={setSelectedProject} />
-                    <Slot initialIndex={1} dir="b" projects={projects} staggerDelay={220} onClick={setSelectedProject} />
-                    <Slot initialIndex={2} dir="a" projects={projects} staggerDelay={440} onClick={setSelectedProject} />
+                    {Array.from({ length: slotCount }).map((_, i) => (
+                        <Slot
+                            key={i}
+                            initialIndex={i}
+                            dir={dirs[i]}
+                            projects={projects}
+                            staggerDelay={staggerDelays[i]}
+                            slotCount={slotCount}
+                            rotationEnabled={rotationEnabled}
+                            onClick={setSelectedProject}
+                        />
+                    ))}
                 </div>
                 <p className="text-center text-gray-500 text-xs mt-5">
                     <i className="fas fa-mouse-pointer mr-1"></i> Auto-rotating showcase · click a panel to view details
                 </p>
             </div>
 
-            {/* PROJECT DETAIL MODAL */}
             {selectedProject && (() => {
                 const title = selectedProject.title || selectedProject.name;
                 const tagsArray = Array.isArray(selectedProject.tags) ? selectedProject.tags : (typeof selectedProject.tech === 'string' ? selectedProject.tech.split(',').map(s => s.trim()).filter(Boolean) : []);
@@ -178,8 +216,16 @@ export default function Portfolio() {
                             ))}
                         </div>
                         <div className="flip-links card-footer">
-                            <a href="#" onClick={(e) => e.preventDefault()}><i className="fab fa-github mr-1"></i> View Code</a>
-                            <a href="#" onClick={(e) => e.preventDefault()}><i className="fas fa-external-link-alt mr-1"></i> Live Demo</a>
+                            {selectedProject.githubUrl && (
+                                <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
+                                    <i className="fab fa-github mr-1"></i> View Code
+                                </a>
+                            )}
+                            {selectedProject.demoUrl && (
+                                <a href={selectedProject.demoUrl} target="_blank" rel="noopener noreferrer">
+                                    <i className="fas fa-external-link-alt mr-1"></i> Live Demo
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>
