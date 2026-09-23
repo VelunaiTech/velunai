@@ -62,9 +62,9 @@ function ProjectFace({ project }) {
                     ))}
                 </div>
                 <div className="flip-links card-footer">
-                    {project.githubUrl && (
+                    {(project.git_repo || project.githubUrl) && (
                         
-                            <a href={project.githubUrl}
+                            <a href={project.git_repo || project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
@@ -72,9 +72,9 @@ function ProjectFace({ project }) {
                             <i className="fab fa-github mr-1"></i> Code
                         </a>
                     )}
-                    {project.demoUrl && (
+                    {(project.link || project.demoUrl) && (
                         
-                            <a href={project.demoUrl}
+                            <a href={project.link || project.demoUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
@@ -216,13 +216,13 @@ export default function Portfolio() {
                             ))}
                         </div>
                         <div className="flip-links card-footer">
-                            {selectedProject.githubUrl && (
-                                <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
+                            {(selectedProject.git_repo || selectedProject.githubUrl) && (
+                                <a href={selectedProject.git_repo || selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
                                     <i className="fab fa-github mr-1"></i> View Code
                                 </a>
                             )}
-                            {selectedProject.demoUrl && (
-                                <a href={selectedProject.demoUrl} target="_blank" rel="noopener noreferrer">
+                            {(selectedProject.link || selectedProject.demoUrl) && (
+                                <a href={selectedProject.link || selectedProject.demoUrl} target="_blank" rel="noopener noreferrer">
                                     <i className="fas fa-external-link-alt mr-1"></i> Live Demo
                                 </a>
                             )}

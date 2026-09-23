@@ -50,6 +50,8 @@ const SCHEMAS = {
             { name: 'desc', label: 'Short Description', type: 'textarea' },
             { name: 'long_desc', label: 'Long Description', type: 'textarea' },
             { name: 'img', label: 'Image URL', type: 'text' },
+            { name: 'git_repo', label: 'Git Repo Link (optional)', type: 'url' },
+            { name: 'link', label: 'Link (optional)', type: 'url' },
             { name: 'order', label: 'Order', type: 'number' },
         ],
     },

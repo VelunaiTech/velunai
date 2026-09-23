@@ -24,6 +24,8 @@ class Project(models.Model):
     long_desc = models.TextField(blank=True)
     tags = models.JSONField(default=list, blank=True)
     img = models.URLField(blank=True, max_length=500)
+    git_repo = models.URLField(blank=True, max_length=500)
+    link = models.URLField(blank=True, max_length=500)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
