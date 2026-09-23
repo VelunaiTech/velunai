@@ -382,6 +382,15 @@
     .admin-form-grid { grid-template-columns: 1fr; }
 }
 
+/* Re-enable page scrolling on the admin page. onboarding.css sets
+   `html, body { height: 100%; overflow: hidden }` globally. */
+html.admin-scroll,
+body.admin-scroll {
+    height: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
 /* ── Themed scrollbars (admin only) ──
    `admin-scroll` is added to <html> while the admin page is mounted, so the
    public site keeps the browser's default scrollbar. */

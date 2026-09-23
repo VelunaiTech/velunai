@@ -515,10 +515,16 @@ export default function AdminPortal() {
     const navigate = useNavigate();
     const [active, setActive] = useState('overview');
 
-    // Themed scrollbar for the page itself, only while the admin page is open.
+    // onboarding.css locks html/body to `overflow: hidden` for the whole app, so
+    // without this the admin page can't scroll at all. Same opt-out pattern the
+    // dashboard uses (`dashboard-active`); also enables the themed scrollbar.
     useEffect(() => {
         document.documentElement.classList.add('admin-scroll');
-        return () => document.documentElement.classList.remove('admin-scroll');
+        document.body.classList.add('admin-scroll');
+        return () => {
+            document.documentElement.classList.remove('admin-scroll');
+            document.body.classList.remove('admin-scroll');
+        };
     }, []);
 
     return (
