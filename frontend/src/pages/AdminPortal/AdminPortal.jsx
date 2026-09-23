@@ -50,6 +50,7 @@ const SCHEMAS = {
             { name: 'desc', label: 'Short Description', type: 'textarea' },
             { name: 'long_desc', label: 'Long Description', type: 'textarea' },
             { name: 'img', label: 'Image URL', type: 'text' },
+            { name: 'tags', label: 'Tags (comma separated)', type: 'tags' },
             { name: 'git_repo', label: 'Git Repo Link (optional)', type: 'url' },
             { name: 'link', label: 'Link (optional)', type: 'url' },
             { name: 'order', label: 'Order', type: 'number' },
@@ -99,7 +100,11 @@ function ResourceManager({ resourceKey }) {
     const startCreate = () => { setForm(emptyForm(schema.fields)); setEditingId('new'); setErr(''); };
     const startEdit = (item) => {
         const f = {};
-        schema.fields.forEach((field) => { f[field.name] = item[field.name] ?? (field.type === 'number' ? 0 : ''); });
+        schema.fields.forEach((field) => {
+            f[field.name] = field.type === 'tags'
+                ? (Array.isArray(item[field.name]) ? item[field.name].join(', ') : '')
+                : (item[field.name] ?? (field.type === 'number' ? 0 : ''));
+        });
         setForm(f);
         setEditingId(item.id);
         setErr('');
@@ -111,11 +116,17 @@ function ResourceManager({ resourceKey }) {
         setBusy(true);
         setErr('');
         try {
+            const payload = { ...form };
+            schema.fields.forEach((field) => {
+                if (field.type === 'tags') {
+                    payload[field.name] = String(form[field.name] || '').split(',').map((s) => s.trim()).filter(Boolean);
+                }
+            });
             if (editingId === 'new') {
-                const created = await schema.api.create(form);
+                const created = await schema.api.create(payload);
                 setItems([...items, created]);
             } else {
-                const updated = await schema.api.patch(editingId, form);
+                const updated = await schema.api.patch(editingId, payload);
                 setItems(items.map((it) => (it.id === editingId ? updated : it)));
             }
             setEditingId(null);
@@ -161,7 +172,7 @@ function ResourceManager({ resourceKey }) {
                                     />
                                 ) : (
                                     <input
-                                        type={field.type}
+                                        type={field.type === 'tags' ? 'text' : field.type}
                                         required={field.required}
                                         value={form[field.name]}
                                         onChange={(e) => setForm({
