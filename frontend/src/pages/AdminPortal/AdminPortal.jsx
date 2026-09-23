@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useData } from '../../context/DataContext';
 import { services as servicesApi, projects as projectsApi, team as teamApi,
@@ -514,6 +514,12 @@ export default function AdminPortal() {
     const { currentUser } = useData();
     const navigate = useNavigate();
     const [active, setActive] = useState('overview');
+
+    // Themed scrollbar for the page itself, only while the admin page is open.
+    useEffect(() => {
+        document.documentElement.classList.add('admin-scroll');
+        return () => document.documentElement.classList.remove('admin-scroll');
+    }, []);
 
     return (
         <div className="admin-root">

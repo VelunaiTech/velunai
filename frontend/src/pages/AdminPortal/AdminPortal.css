@@ -9,11 +9,14 @@
 
 /* ── Sidebar ── */
 .admin-sidebar {
-    position: relative;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    overflow-y: auto;
     z-index: 2;
     width: 240px;
     flex-shrink: 0;
-    min-height: 100vh;
     background: rgba(15, 20, 32, 0.85);
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(16px);
@@ -251,13 +254,20 @@
 }
 
 /* ── Table ── */
-.admin-table-wrap { overflow-x: auto; }
+.admin-table-wrap {
+    overflow: auto;
+    max-height: 65vh;
+}
 .admin-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
 }
 .admin-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #0f1420;
     text-align: left;
     color: #64748b;
     font-weight: 600;
@@ -358,6 +368,8 @@
 @media (max-width: 860px) {
     .admin-root { flex-direction: column; }
     .admin-sidebar {
+        position: relative;
+        height: auto;
         width: 100%;
         min-height: auto;
         flex-direction: row;
@@ -369,3 +381,43 @@
     .admin-main { padding: 20px; }
     .admin-form-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Themed scrollbars (admin only) ──
+   `admin-scroll` is added to <html> while the admin page is mounted, so the
+   public site keeps the browser's default scrollbar. */
+html.admin-scroll,
+.admin-table-wrap,
+.admin-sidebar,
+.admin-form {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+}
+html.admin-scroll { scrollbar-color: rgba(148, 163, 184, 0.45) #0b0e17; }
+
+html.admin-scroll::-webkit-scrollbar,
+.admin-table-wrap::-webkit-scrollbar,
+.admin-sidebar::-webkit-scrollbar,
+.admin-form::-webkit-scrollbar { width: 10px; height: 10px; }
+
+html.admin-scroll::-webkit-scrollbar-track { background: #0b0e17; }
+.admin-table-wrap::-webkit-scrollbar-track,
+.admin-sidebar::-webkit-scrollbar-track,
+.admin-form::-webkit-scrollbar-track { background: transparent; }
+
+html.admin-scroll::-webkit-scrollbar-thumb,
+.admin-table-wrap::-webkit-scrollbar-thumb,
+.admin-sidebar::-webkit-scrollbar-thumb,
+.admin-form::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+html.admin-scroll::-webkit-scrollbar-thumb:hover,
+.admin-table-wrap::-webkit-scrollbar-thumb:hover,
+.admin-sidebar::-webkit-scrollbar-thumb:hover,
+.admin-form::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.6);
+    background-clip: padding-box;
+}
+
